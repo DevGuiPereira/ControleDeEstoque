@@ -18,10 +18,10 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(int id, String nome, String descrição, double preco, int quantidade) {
+    public Produto(int id, String nome, String descricaoo, double preco, int quantidade) {
         this.id = id;
         this.nome = nome;
-        this.descricao = descrição;
+        this.descricao = descricao;
         this.preco = preco;
         this.quantidade = quantidade;
     }
@@ -34,7 +34,7 @@ public class Produto {
         return nome;
     }
 
-    public String getDescrição() {
+    public String getDescricao() {
         return descricao;
     }
 
@@ -54,7 +54,7 @@ public class Produto {
         this.nome = nome;
     }
 
-    public void setDescrição(String descrição) {
+    public void setDescricao(String descrição) {
         this.descricao = descrição;
     }
 
