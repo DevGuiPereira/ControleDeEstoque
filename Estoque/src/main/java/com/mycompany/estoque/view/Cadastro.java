@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.estoque.view;
 
@@ -8,13 +8,14 @@ package com.mycompany.estoque.view;
  *
  * @author guilh
  */
-public class Cadastro extends javax.swing.JPanel {
+public class Cadastro extends javax.swing.JFrame {
 
     /**
-     * Creates new form Cadastro
+     * Creates new form Cadastro1
      */
     public Cadastro() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -26,47 +27,25 @@ public class Cadastro extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
+        qtdaProduto = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        CadastrarProduto = new javax.swing.JButton();
+        FecharTela = new javax.swing.JButton();
         descricaoProduto = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         nomeProduto = new javax.swing.JTextField();
         precoProduto = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        qtdaProduto = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        CadastrarProduto = new javax.swing.JButton();
-        FecharTela = new javax.swing.JButton();
 
-        descricaoProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DescricaoProduto(evt);
-            }
-        });
-
-        jLabel1.setText("Nome Produto");
-
-        nomeProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NomeProduto(evt);
-            }
-        });
-
-        precoProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PrecoProduto(evt);
-            }
-        });
-
-        jLabel2.setText("Descrição");
-
-        jLabel3.setText("Preço");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel4.setText("Qtda em Estoque");
 
         qtdaProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                QtdaProduto(evt);
+                qtdaProdutoQtdaProduto(evt);
             }
         });
 
@@ -75,7 +54,7 @@ public class Cadastro extends javax.swing.JPanel {
         CadastrarProduto.setText("Cadastrar");
         CadastrarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cadastrarProduto(evt);
+                CadastrarProdutocadastrarProduto(evt);
             }
         });
 
@@ -86,8 +65,32 @@ public class Cadastro extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        descricaoProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descricaoProdutoDescricaoProduto(evt);
+            }
+        });
+
+        jLabel1.setText("Nome Produto");
+
+        nomeProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomeProdutoNomeProduto(evt);
+            }
+        });
+
+        precoProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                precoProdutoPrecoProduto(evt);
+            }
+        });
+
+        jLabel2.setText("Descrição");
+
+        jLabel3.setText("Preço");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -146,36 +149,75 @@ public class Cadastro extends javax.swing.JPanel {
                     .addComponent(qtdaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(75, 75, 75)
                 .addComponent(CadastrarProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(FecharTela)
                 .addGap(24, 24, 24))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DescricaoProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescricaoProduto
+    private void qtdaProdutoQtdaProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtdaProdutoQtdaProduto
         // TODO add your handling code here:
-    }//GEN-LAST:event_DescricaoProduto
+    }//GEN-LAST:event_qtdaProdutoQtdaProduto
 
-    private void NomeProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomeProduto
+    private void CadastrarProdutocadastrarProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarProdutocadastrarProduto
         // TODO add your handling code here:
-    }//GEN-LAST:event_NomeProduto
-
-    private void PrecoProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrecoProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PrecoProduto
-
-    private void QtdaProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QtdaProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_QtdaProduto
-
-    private void cadastrarProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cadastrarProduto
+    }//GEN-LAST:event_CadastrarProdutocadastrarProduto
 
     private void FecharTela(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharTela
-        // TODO add your handling code here:
+        Inicio inicio = new Inicio();
+        inicio.setVisible(true);
+        dispose();
     }//GEN-LAST:event_FecharTela
 
+    private void descricaoProdutoDescricaoProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descricaoProdutoDescricaoProduto
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descricaoProdutoDescricaoProduto
+
+    private void nomeProdutoNomeProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeProdutoNomeProduto
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomeProdutoNomeProduto
+
+    private void precoProdutoPrecoProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precoProdutoPrecoProduto
+        // TODO add your handling code here:
+    }//GEN-LAST:event_precoProdutoPrecoProduto
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Cadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Cadastro().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CadastrarProduto;

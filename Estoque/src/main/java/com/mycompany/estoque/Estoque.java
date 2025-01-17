@@ -22,7 +22,7 @@ public class Estoque {
     public ConexaoMySQL conexaoMySQL;
 
     public static void main(String[] args) {
-        Conexao conexao = new Conexao(
+        /*Conexao conexao = new Conexao(
                 "localhost",
                 "root",
                 "Guirp007007!",
@@ -30,8 +30,7 @@ public class Estoque {
                 "controle_estoque"
         );
         ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);
-        conexaoMySQL.conectar();
-        
+        conexaoMySQL.conectar();*/
             Inicio inicio = new Inicio();
             inicio.setVisible(true);
             inicio.setTitle("Início");

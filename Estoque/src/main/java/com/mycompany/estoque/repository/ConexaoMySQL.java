@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.estoque.repository;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
-/**
- *
- * @author guilh
- */
+
 public class ConexaoMySQL {
     private Conexao conexao = null;
     public static Connection connection = null;
@@ -18,35 +11,55 @@ public class ConexaoMySQL {
     public ConexaoMySQL(Conexao conexao) {
         this.conexao = conexao;
     }
-    
-    public boolean conectar(){
-        if(conexao != null){
-            try{
+
+    public boolean conectar() {
+        if (conexao != null) {
+            try {
+                // URL de conexão com parâmetros adicionais
+               
+                System.out.println("Iniciando tentativa de conexão com o banco de dados...");
+                System.out.println("Endereço: " + conexao.getEndereco());
+                System.out.println("Porta: " + conexao.getPorta());
+                System.out.println("Nome do banco: " + conexao.getNomeBanco());
+                System.out.println("Usuário: " + conexao.getUser());
+                
                 String url = "jdbc:mysql://" + conexao.getEndereco() +
                              ":" + conexao.getPorta() +
                              "/" + conexao.getNomeBanco();
-                
-                //pegar a classe da Librarie q adicionamos:
+                        
+                System.out.println("URL de conexão gerada: " + url);
+                        
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                
+
+                // Estabelece a conexão
                 connection = DriverManager.getConnection(
                         url,
                         conexao.getUser(),
                         conexao.getPassword()
                 );
-                return true;                
-            }catch(Exception ex){
+
+                System.out.println("Conexão estabelecida com sucesso!");
+                return true;
+
+            } catch (Exception ex) {
+                // Exibe a mensagem de erro e imprime o stack trace
                 JOptionPane.showMessageDialog(
                         null,
-                        "Erro ao conectar no banco de dados: " + ex.getMessage(),
+                        "Erro ao conectar ao banco de dados: " + ex.getMessage(),
                         "Erro ao conectar",
                         JOptionPane.ERROR_MESSAGE
-                ); 
+                );
+                ex.printStackTrace();
                 return false;
-            } //catch
-        }else{
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Configuração de conexão inválida!",
+                    "Erro ao conectar",
+                    JOptionPane.ERROR_MESSAGE
+            );
             return false;
         }
     }
-    
 }

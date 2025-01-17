@@ -16,7 +16,7 @@ public class Inicio extends javax.swing.JFrame {
     
     public Inicio() {
         initComponents();
-        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -96,16 +96,19 @@ public class Inicio extends javax.swing.JFrame {
         System.out.println("Botão Editar Produto clicado!");
         Edicao edicao = new Edicao();
         edicao.setVisible(true);
+        dispose();
     }//GEN-LAST:event_editarProdutoButton
 
     private void relatorioProdutoButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioProdutoButton
         Relatorio relatorio = new Relatorio();
         relatorio.setVisible(true);
+        dispose();
     }//GEN-LAST:event_relatorioProdutoButton
 
     private void cadastroProutoButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroProutoButton
         Cadastro cadastro = new Cadastro();
         cadastro.setVisible(true);
+        dispose();
     }//GEN-LAST:event_cadastroProutoButton
 
     /**

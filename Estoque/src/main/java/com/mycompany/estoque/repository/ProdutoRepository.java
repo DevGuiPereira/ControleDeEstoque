@@ -7,6 +7,8 @@ import com.mycompany.estoque.model.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 /**
  *
@@ -18,7 +20,7 @@ public class ProdutoRepository implements Crud<Produto> {
     public boolean inserir(Connection connection, Produto produto) {
         PreparedStatement stmt = null;
         try{
-            String comando = "INSERT INTO cadastro_pessoa(nome, descricao, preco, quantidade) " +
+            String comando = "INSERT INTO produtos(nome, descricao, preco, quantidade) " +
                              "VALUES(?, ?, ?, ?)";
             stmt = connection.prepareStatement(comando);
             stmt.setString(1, produto.getNome());
@@ -45,7 +47,7 @@ public class ProdutoRepository implements Crud<Produto> {
         try{
             String comando = "UPDATE produto SET " +
                              "nome = ?, descricao = ?, preco = ?, quantidade = ? " +
-                             "WHERE idProduto = ?";
+                             "WHERE idprodutos = ?";
             stmt = connection.prepareStatement(comando);
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getDescricao());
@@ -58,7 +60,7 @@ public class ProdutoRepository implements Crud<Produto> {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(
                     null,
-                    "Erro ao atualizar pessoa: " + ex.getMessage(),
+                    "Erro ao atualizar prouto: " + ex.getMessage(),
                     "Erro ao atualizar",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -70,8 +72,8 @@ public class ProdutoRepository implements Crud<Produto> {
     public boolean deletar(Connection connection, Produto produto) {
         PreparedStatement stmt = null;
         try{
-            String comando = "DELETE FROM cadastro_pessoa " +
-                             "WHERE idProuto = ?";
+            String comando = "DELETE FROM produtos( " +
+                             "WHERE idprodutos = ?";
             stmt = connection.prepareStatement(comando);
             stmt.setInt(1, produto.getId());
             stmt.executeUpdate();
@@ -80,7 +82,7 @@ public class ProdutoRepository implements Crud<Produto> {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(
                     null,
-                    "Erro ao excluir pessoa: " + ex.getMessage(),
+                    "Erro ao excluir produto: " + ex.getMessage(),
                     "Erro ao excluir",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -93,7 +95,7 @@ public class ProdutoRepository implements Crud<Produto> {
         try{
             Produto produto = new Produto();
             PreparedStatement stmt = null;
-            String comando = "SELECT * FROM cadastro_pessoa WHERE idProduto " + 
+            String comando = "SELECT * FROM proutos( WHERE idprodutos " + 
                              operador + " ? ";
             if(operador.equals("<"))
                 comando += " ORDER BY id DESC";
@@ -104,17 +106,50 @@ public class ProdutoRepository implements Crud<Produto> {
                 while(res.next()){
                     produto.setId(Integer.parseInt(res.getString("id") ));
                     produto.setNome(res.getString("nome"));
-                    produto.setDescricao(res.getString("endereco"));
-                    produto.setPreco(Double.parseDouble(res.getString("telefone") ));
-                    produto.setQuantidade(Integer.parseInt(res.getString("email") ));                    
+                    produto.setDescricao(res.getString("descricao"));
+                    produto.setPreco(Double.parseDouble(res.getString("preco") ));
+                    produto.setQuantidade(Integer.parseInt(res.getString("quantidade") ));                    
                     break;
                 }
             }
             return produto;
-        }catch(Exception ex){
-            
+        }catch(Exception ex){ 
             return null;
         }
     }
-    
+
+    @Override
+    public List<Produto> selecionarTodos(Connection connection) {
+        List<Produto> produtos = new ArrayList<>();
+        String comando = "SELECT * FROM produtos";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(comando);
+            ResultSet rs = stmt.executeQuery();
+
+            // Preenchendo a lista de produtos com os dados do ResultSet
+            while (rs.next()) {
+                
+                Produto produto = new Produto();
+                produto.setId(rs.getInt("idprodutos"));  // Assumindo que a coluna seja 'idProduto'
+                produto.setNome(rs.getString("nome"));
+                produto.setDescricao(rs.getString("descricao"));
+                produto.setPreco(rs.getDouble("preco"));
+                produto.setQuantidade(rs.getInt("quantidade"));
+                produtos.add(produto);  // Adiciona o produto na lista
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.out.println("Erro ao executar o comando SQL: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        }
+
+        return produtos;  // Retorna a lista de produtos
+    }
+
+
 }
+    

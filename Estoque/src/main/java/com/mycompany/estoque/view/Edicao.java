@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.estoque.view;
 
@@ -8,13 +8,14 @@ package com.mycompany.estoque.view;
  *
  * @author guilh
  */
-public class Edicao extends javax.swing.JPanel {
+public class Edicao extends javax.swing.JFrame {
 
     /**
-     * Creates new form Edicao
+     * Creates new form Edicao1
      */
     public Edicao() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -26,10 +27,6 @@ public class Edicao extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        localizarID = new javax.swing.JTextField();
-        buscarID = new javax.swing.JButton();
-        editarQtda = new javax.swing.JTextField();
         editarDescricao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         editarNome = new javax.swing.JTextField();
@@ -37,32 +34,14 @@ public class Edicao extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         salvarEdicao = new javax.swing.JButton();
+        localizarID = new javax.swing.JTextField();
         FecharTela = new javax.swing.JButton();
+        buscarID = new javax.swing.JButton();
+        editarQtda = new javax.swing.JTextField();
 
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(700, 450));
-
-        jLabel1.setText("Digite o ID do produto:");
-
-        localizarID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LocalizarID(evt);
-            }
-        });
-
-        buscarID.setText("Buscar");
-        buscarID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarID(evt);
-            }
-        });
-
-        editarQtda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarQtdaActionPerformed(evt);
-            }
-        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         editarDescricao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,10 +69,18 @@ public class Edicao extends javax.swing.JPanel {
 
         jLabel5.setText("Qtda em Estoque");
 
+        jLabel1.setText("Digite o ID do produto:");
+
         salvarEdicao.setText("Salvar");
         salvarEdicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalvarEdicao(evt);
+                salvarEdicaoSalvarEdicao(evt);
+            }
+        });
+
+        localizarID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                localizarIDLocalizarID(evt);
             }
         });
 
@@ -104,8 +91,21 @@ public class Edicao extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        buscarID.setText("Buscar");
+        buscarID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarIDBuscarID(evt);
+            }
+        });
+
+        editarQtda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarQtdaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -114,8 +114,8 @@ public class Edicao extends javax.swing.JPanel {
                         .addGap(26, 26, 26)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(localizarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
+                        .addComponent(localizarID, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(buscarID))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(54, 54, 54)
@@ -171,23 +171,13 @@ public class Edicao extends javax.swing.JPanel {
                     .addComponent(editarQtda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(salvarEdicao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(FecharTela)
                 .addGap(25, 25, 25))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void LocalizarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalizarID
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LocalizarID
-
-    private void BuscarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarID
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BuscarID
-
-    private void editarQtdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarQtdaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editarQtdaActionPerformed
 
     private void editarDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarDescricaoActionPerformed
         // TODO add your handling code here:
@@ -201,14 +191,63 @@ public class Edicao extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_editarPrecoActionPerformed
 
-    private void SalvarEdicao(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarEdicao
+    private void salvarEdicaoSalvarEdicao(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarEdicaoSalvarEdicao
         // TODO add your handling code here:
-    }//GEN-LAST:event_SalvarEdicao
+    }//GEN-LAST:event_salvarEdicaoSalvarEdicao
+
+    private void localizarIDLocalizarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localizarIDLocalizarID
+        // TODO add your handling code here:
+    }//GEN-LAST:event_localizarIDLocalizarID
 
     private void FecharTela(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharTela
-        // TODO add your handling code here:
+        Inicio inicio = new Inicio();
+        inicio.setVisible(true);
+        dispose();
     }//GEN-LAST:event_FecharTela
 
+    private void buscarIDBuscarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarIDBuscarID
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarIDBuscarID
+
+    private void editarQtdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarQtdaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editarQtdaActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Edicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Edicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Edicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Edicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Edicao().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton FecharTela;
