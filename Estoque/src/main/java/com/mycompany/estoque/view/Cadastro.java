@@ -17,38 +17,40 @@ import javax.swing.JOptionPane;
  */
 public class Cadastro extends javax.swing.JFrame {
     
-    private ProdutoRepository produtoRepository;
+    //variável para estabelecer conexão com o banco de dados
     private Connection connection;
+    private ProdutoRepository produtoRepository = new ProdutoRepository();
 
     /**
      * Creates new form Cadastro1
      */
     public Cadastro() {
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);  //centralizar a pagina de cadastro
         configurarConexao();
     }
     
     private void configurarConexao(){
-        // Configurando a conexão
+        
+        // Configurando a conexão com os dados do banco local
         Conexao conexao = new Conexao(
                 "localhost",
                 "root",
-                "Guirp007007!",
+                "sua_senha_do_banco", //coloque sua senha do banco de dados
                 3306,
                 "estoque"
         );
 
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);
-        if (conexaoMySQL.conectar()) {  // Certifique-se de que a conexão foi estabelecida
-            connection = ConexaoMySQL.connection;  // Atribua a conexão à variável global
+        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);  //iniciando a com os dados do objeto conexao
+        if (conexaoMySQL.conectar()) { 
+            connection = ConexaoMySQL.connection;   //faz a conexão
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;  // Interrompe a execução se não houver conexão
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);   //mmensagem de erro
+            return; 
         }
     }
     
-    private void limparCampos(){
+    private void limparCampos(){ //função para limpar os JLabels da página
         txtNome.setText("");
         txtDescricao.setText("");
         txtPreco.setText("");
@@ -59,14 +61,13 @@ public class Cadastro extends javax.swing.JFrame {
         try{
             String nome = txtNome.getText();
             String descricao = txtDescricao.getText();
-            Double preco = Double.parseDouble(txtPreco.getText());
+            Double preco = Double.parseDouble(txtPreco.getText());    //funções para pegar os dados informados pelo usuário, atribuindo em variáveis
             int qtda = Integer.parseInt(txtQtda.getText());
                     
             
-            Produto produto = new Produto(nome, descricao, preco, qtda);
-            ProdutoRepository produtoRepository = new ProdutoRepository();
-            
-            if (produtoRepository.inserir(connection, produto)){
+            Produto produto = new Produto(nome, descricao, preco, qtda); //criando um objeto Produto com as informações do usuário
+                        
+            if (produtoRepository.inserir(connection, produto)){ //utilizando a função inserir da classe ProdutoRepository e mostrando mensagens de sucesso ou de erro
                JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                limparCampos(); 
             } else{
@@ -99,12 +100,15 @@ public class Cadastro extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastro");
 
         jLabel4.setText("Qtda em Estoque");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setText("Cadastro Produto");
 
+        CadastrarProduto.setBackground(new java.awt.Color(51, 255, 0));
+        CadastrarProduto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         CadastrarProduto.setText("Cadastrar");
         CadastrarProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         CadastrarProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -199,13 +203,13 @@ public class Cadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastrarProdutocadastrarProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarProdutocadastrarProduto
-        cadastrarProduto();
+        cadastrarProduto(); //chama a função após dar as informações do produto e clicar em cadastrar
     }//GEN-LAST:event_CadastrarProdutocadastrarProduto
 
     private void FecharTela(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharTela
         Inicio inicio = new Inicio();
-        inicio.setVisible(true);
-        dispose();
+        inicio.setVisible(true);   //fecha a tela de cadastro e inicia a tela inicial novamente
+        dispose(); 
     }//GEN-LAST:event_FecharTela
 
     /**

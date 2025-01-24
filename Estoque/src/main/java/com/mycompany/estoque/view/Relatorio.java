@@ -39,7 +39,9 @@ public class Relatorio extends javax.swing.JFrame {
         relatorioCompletoButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Relatórios");
 
+        relatorioProdutos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         relatorioProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -155,30 +157,27 @@ public class Relatorio extends javax.swing.JFrame {
         Conexao conexao = new Conexao(
                 "localhost",
                 "root",
-                "Guirp007007!",
+                "sua_senha_do_banco",  //coloque sua senha do banco de dados
                 3306,
                 "estoque"
         );
 
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);
-        if (conexaoMySQL.conectar()) {  // Certifique-se de que a conexão foi estabelecida
-            connection = ConexaoMySQL.connection;  // Atribua a conexão à variável global
+        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao); //iniciando a com os dados do objeto conexao
+        if (conexaoMySQL.conectar()) {  
+            connection = ConexaoMySQL.connection;  //faz a conexão
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;  // Interrompe a execução se não houver conexão
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE); //mensagem de erro
+            return;  
         }
     }
     
-    private void carregarTabelaTodos() {
+    private void carregarTabelaTodos() { //função para buscar todos os produtos do banco e mostrar no JTable
               
-        // Inicializando o repositório
-        ProdutoRepository produtoRepository = new ProdutoRepository();
-
         // Selecionando os produtos
         List<Produto> produtos = produtoRepository.selecionarTodos(connection);
 
         if (produtos == null || produtos.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nenhum produto encontrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nenhum produto encontrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE); //mensagem avisando que não tem produtos cadastrados no banco
             return;
         }
 
@@ -190,8 +189,8 @@ public class Relatorio extends javax.swing.JFrame {
 
             modeloTabela.addRow(new Object[]{
                     produto.getId(),
-                    produto.getNome(),
-                    produto.getDescricao(),
+                    produto.getNome(),    
+                    produto.getDescricao(),   //adiciona os dados na tabela
                     produto.getPreco(),
                     produto.getQuantidade()
             });
@@ -199,16 +198,13 @@ public class Relatorio extends javax.swing.JFrame {
 
     }
     
-    private void carregarTabelaPoucoEstoque() {
-              
-        // Inicializando o repositório
-        ProdutoRepository produtoRepository = new ProdutoRepository();
+    private void carregarTabelaPoucoEstoque() { //função para buscar todos os produtos com pouco estoque no banco de dados e mostrar no JTable
 
         // Selecionando os produtos
         List<Produto> produtos = produtoRepository.selecionarPoucoEstoque(connection);
 
         if (produtos == null || produtos.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nenhum produto encontrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nenhum produto encontrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE); //mensagem avisando que não foi encontrado produtos com pouco estoque
             return;
         }
 
@@ -221,7 +217,7 @@ public class Relatorio extends javax.swing.JFrame {
             modeloTabela.addRow(new Object[]{
                     produto.getId(),
                     produto.getNome(),
-                    produto.getDescricao(),
+                    produto.getDescricao(),    //adicionando os dados na tabela
                     produto.getPreco(),
                     produto.getQuantidade()
             });

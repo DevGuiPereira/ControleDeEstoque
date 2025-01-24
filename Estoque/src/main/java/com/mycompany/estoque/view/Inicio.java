@@ -6,6 +6,7 @@ package com.mycompany.estoque.view;
 
 import com.mycompany.estoque.repository.Conexao;
 import com.mycompany.estoque.repository.ConexaoMySQL;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Inicio extends javax.swing.JFrame {
     
     public Inicio() {
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); //centralizar a pagina de cadastro
     }
 
     /**
@@ -32,9 +33,12 @@ public class Inicio extends javax.swing.JFrame {
         relatorioProdutoButton = new javax.swing.JButton();
         cadastroProutoButton = new javax.swing.JButton();
         Titulo = new javax.swing.JLabel();
+        Titulo1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Início");
         setBackground(new java.awt.Color(204, 204, 204));
+        setMinimumSize(new java.awt.Dimension(700, 455));
 
         editarProdutoButton.setText("Editar/Excluir Produto");
         editarProdutoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -62,36 +66,44 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        Titulo.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        Titulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         Titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Titulo.setText("CONTROLE DE ESTOQUE");
+        Titulo.setText("Empresa Fictícia");
         Titulo.setAlignmentY(0.0F);
+
+        Titulo1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        Titulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Titulo1.setText("CONTROLE DE ESTOQUE");
+        Titulo1.setAlignmentY(0.0F);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Titulo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Titulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 270, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(editarProdutoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(269, 269, 269)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(relatorioProdutoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editarProdutoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cadastroProutoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(267, 267, 267))
-            .addComponent(Titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(268, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
+                .addContainerGap()
                 .addComponent(Titulo)
-                .addGap(96, 96, 96)
-                .addComponent(cadastroProutoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(78, 78, 78)
+                .addComponent(Titulo1)
+                .addGap(57, 57, 57)
+                .addComponent(cadastroProutoButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editarProdutoButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(relatorioProdutoButton)
-                .addGap(148, 148, 148))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,19 +111,19 @@ public class Inicio extends javax.swing.JFrame {
 
     private void editarProdutoButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarProdutoButton
         Edicao edicao = new Edicao();
-        edicao.setVisible(true);
+        edicao.setVisible(true);  //entrar na tela de edição
         dispose();
     }//GEN-LAST:event_editarProdutoButton
 
     private void relatorioProdutoButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioProdutoButton
         Relatorio relatorio = new Relatorio();
-        relatorio.setVisible(true);
+        relatorio.setVisible(true);   //entrar na tela de relatórios
         dispose();
     }//GEN-LAST:event_relatorioProdutoButton
 
     private void cadastroProutoButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroProutoButton
         Cadastro cadastro = new Cadastro();
-        cadastro.setVisible(true);
+        cadastro.setVisible(true);  //entrar na tela de cadastro
         dispose();
     }//GEN-LAST:event_cadastroProutoButton
 
@@ -152,6 +164,7 @@ public class Inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Titulo;
+    private javax.swing.JLabel Titulo1;
     private javax.swing.JButton cadastroProutoButton;
     private javax.swing.JButton editarProdutoButton;
     private javax.swing.JButton relatorioProdutoButton;

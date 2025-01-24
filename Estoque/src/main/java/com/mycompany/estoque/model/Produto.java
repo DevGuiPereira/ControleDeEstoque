@@ -11,28 +11,29 @@ package com.mycompany.estoque.model;
 public class Produto {
     private int id;
     private String nome;
-    private String descricao;
+    private String descricao;   //variáveis privadas do objeto Produto
     private double preco;
     private int quantidade;
     
-    public Produto() {
+    public Produto() {     //construtor vazio, para não ter a necessiade de fornecer valores iniciais
     }
 
     public Produto(int id, String nome, String descricao, double preco, int quantidade) {
         this.id = id;
         this.nome = nome;
-        this.descricao = descricao;
+        this.descricao = descricao;       //construtor com as variáveis do objeto, incluindo o id
         this.preco = preco;
         this.quantidade = quantidade;
     }
     
     public Produto(String nome, String descricao, double preco, int quantidade) {
         this.nome = nome;
-        this.descricao = descricao;
+        this.descricao = descricao;          ///construtor com as variáveis do objeto, excluindo o id
         this.preco = preco;
         this.quantidade = quantidade;
     }
 
+    //gets de todas as variáveis do objeto
     public int getId() {
         return id;
     }
@@ -53,6 +54,7 @@ public class Produto {
         return quantidade;
     }
 
+    //sets de todas as variáveis do objeto
     public void setId(int id) {
         this.id = id;
     }
@@ -72,12 +74,5 @@ public class Produto {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-
-    @Override
-    public String toString() {
-        return "Produto{" + "id=" + id + ", nome=" + nome + ", descricao" + descricao + ", preco=" + preco + ", quantidade=" + quantidade + '}';
-    }
-
-
-    
+  
 }

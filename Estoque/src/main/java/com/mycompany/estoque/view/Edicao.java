@@ -25,31 +25,31 @@ public class Edicao extends javax.swing.JFrame {
      */
     public Edicao() {
         initComponents();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); //centralizar a pagina de cadastro
         configurarConexao();
         produtoRepository = new ProdutoRepository();
     }
     
     private void configurarConexao(){
-        // Configurando a conexão
+        // Configurando a conexão com os dados do banco local
         Conexao conexao = new Conexao(
                 "localhost",
                 "root",
-                "Guirp007007!",
+                "sua_senha_do_banco", //coloque sua senha do banco de dados
                 3306,
                 "estoque"
         );
 
-        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);
-        if (conexaoMySQL.conectar()) {  // Certifique-se de que a conexão foi estabelecida
-            connection = ConexaoMySQL.connection;  // Atribua a conexão à variável global
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;  // Interrompe a execução se não houver conexão
+        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao); //iniciando a com os dados do objeto conexao
+        if (conexaoMySQL.conectar()) {  
+            connection = ConexaoMySQL.connection;   //faz a conexão
+        } else { 
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE); //mmensagem de erro
+            return;  
         }
     }
 
-    private void limparCampos() {
+    private void limparCampos() { //função para limpar os JLabels da página
         txtNome.setText("");
         txtDescricao.setText("");
         txtPreco.setText("");
@@ -84,6 +84,7 @@ public class Edicao extends javax.swing.JFrame {
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Edição/Exclução");
 
         jLabel2.setText("Nome Produto");
 
@@ -96,6 +97,7 @@ public class Edicao extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Digite o ID do produto:");
 
+        salvarEdicao.setBackground(new java.awt.Color(0, 255, 0));
         salvarEdicao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         salvarEdicao.setText("Salvar");
         salvarEdicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -125,7 +127,6 @@ public class Edicao extends javax.swing.JFrame {
         excluirButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         excluirButton.setForeground(new java.awt.Color(255, 255, 255));
         excluirButton.setText("Excluir");
-        excluirButton.setBorderPainted(false);
         excluirButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         excluirButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -264,34 +265,33 @@ public class Edicao extends javax.swing.JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(
                 this,
-                "Erro nos dados inseridos. Por favor, verifique os valores preenchidos.",
+                "Erro nos dados inseridos. Por favor, verifique os valores preenchidos.",   //mmensagem de erro
                 "Erro de Entrada",
                 JOptionPane.ERROR_MESSAGE
             );
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                 this,
-                "Erro ao tentar atualizar o produto: " + ex.getMessage(),
-                "Erro",
+                "Erro ao tentar atualizar o produto: " + ex.getMessage(),   //mmensagem de erro
+                "Erro",  
                 JOptionPane.ERROR_MESSAGE
             );
-            ex.printStackTrace(); // Imprime a pilha de erros para depuração
         }
         
     }//GEN-LAST:event_salvarEdicaoSalvarEdicao
 
     private void FecharTela(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharTela
         Inicio inicio = new Inicio();
-        inicio.setVisible(true);
+        inicio.setVisible(true);    //fecha a tela de cadastro e inicia a tela inicial novamente
         dispose();
     }//GEN-LAST:event_FecharTela
 
     private void buscarIDBuscarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarIDBuscarID
         
         try{
-            int id = Integer.parseInt(txtLocalizarID.getText());
+            int id = Integer.parseInt(txtLocalizarID.getText()); //pega o id colocado pelo usuário
             
-            Produto produto = produtoRepository.selecionar(connection, id);
+            Produto produto = produtoRepository.selecionar(connection, id);  //chama a função de selecionar os produtos, recebendo o id que o usuário colocou     
            
             if (produto != null) {
                 // Preencher os campos com os dados do produto encontrado
@@ -306,7 +306,6 @@ public class Edicao extends javax.swing.JFrame {
             }
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "Erro ao buscar o produto: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace(); // Imprime a pilha completa do erro no terminal
         }
        
      
@@ -315,7 +314,7 @@ public class Edicao extends javax.swing.JFrame {
     private void excluirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirButtonActionPerformed
         
         try {
-            int id = Integer.parseInt(txtLocalizarID.getText());
+            int id = Integer.parseInt(txtLocalizarID.getText()); //pega o id colocado pelo usuário
 
             // Etapa 1: Confirmação de exclusão
             int confirmacao = JOptionPane.showConfirmDialog(
@@ -360,18 +359,17 @@ public class Edicao extends javax.swing.JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(
                 this,
-                "ID inválido. Por favor, insira um número válido.",
+                "ID inválido. Por favor, insira um número válido.", //mensagem de erro
                 "Erro de Entrada",
                 JOptionPane.ERROR_MESSAGE
             );
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                 this,
-                "Erro ao tentar excluir o produto: " + ex.getMessage(),
+                "Erro ao tentar excluir o produto: " + ex.getMessage(),  //mensagem de erro
                 "Erro",
                 JOptionPane.ERROR_MESSAGE
             );
-            ex.printStackTrace(); // Imprime a pilha completa do erro no terminal para depuração
         }
     }//GEN-LAST:event_excluirButtonActionPerformed
 

@@ -8,6 +8,9 @@ package com.mycompany.estoque.repository;
  *
  * @author guilh
  */
+
+// Objeto para estabelecer variáveis que serão preenchidas para a conexão com o banco de dados
+
 public class Conexao {
     private String endereco;
     private String user;

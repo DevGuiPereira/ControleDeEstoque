@@ -47,6 +47,7 @@ Certifique-se de ter os seguintes requisitos instalados antes de executar o proj
    mvn exec:java
    ```
 5. Use a aplicação através da interface gráfica.
+6. Lembre-se de colocar a sua senha do banco de dados nos arquivos de 'Cadastro','Edicao' e 'Inicio' para o programa funcionar.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -57,7 +58,7 @@ Certifique-se de ter os seguintes requisitos instalados antes de executar o proj
 
 ## 🤝 Contribuições
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma *issue*.
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma _issue_.
 
 ## ✨ Autor
 
