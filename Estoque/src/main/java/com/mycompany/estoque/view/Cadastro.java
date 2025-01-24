@@ -4,11 +4,21 @@
  */
 package com.mycompany.estoque.view;
 
+import com.mycompany.estoque.model.Produto;
+import com.mycompany.estoque.repository.Conexao;
+import com.mycompany.estoque.repository.ConexaoMySQL;
+import com.mycompany.estoque.repository.ProdutoRepository;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author guilh
  */
 public class Cadastro extends javax.swing.JFrame {
+    
+    private ProdutoRepository produtoRepository;
+    private Connection connection;
 
     /**
      * Creates new form Cadastro1
@@ -16,6 +26,55 @@ public class Cadastro extends javax.swing.JFrame {
     public Cadastro() {
         initComponents();
         setLocationRelativeTo(null);
+        configurarConexao();
+    }
+    
+    private void configurarConexao(){
+        // Configurando a conexão
+        Conexao conexao = new Conexao(
+                "localhost",
+                "root",
+                "Guirp007007!",
+                3306,
+                "estoque"
+        );
+
+        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);
+        if (conexaoMySQL.conectar()) {  // Certifique-se de que a conexão foi estabelecida
+            connection = ConexaoMySQL.connection;  // Atribua a conexão à variável global
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;  // Interrompe a execução se não houver conexão
+        }
+    }
+    
+    private void limparCampos(){
+        txtNome.setText("");
+        txtDescricao.setText("");
+        txtPreco.setText("");
+        txtQtda.setText("");
+    }
+    
+    private void cadastrarProduto(){
+        try{
+            String nome = txtNome.getText();
+            String descricao = txtDescricao.getText();
+            Double preco = Double.parseDouble(txtPreco.getText());
+            int qtda = Integer.parseInt(txtQtda.getText());
+                    
+            
+            Produto produto = new Produto(nome, descricao, preco, qtda);
+            ProdutoRepository produtoRepository = new ProdutoRepository();
+            
+            if (produtoRepository.inserir(connection, produto)){
+               JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+               limparCampos(); 
+            } else{
+               JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos nos campos de preço e quantidade.", "Erro de Validação", JOptionPane.ERROR_MESSAGE); 
+            }
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -28,14 +87,14 @@ public class Cadastro extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
-        qtdaProduto = new javax.swing.JTextField();
+        txtQtda = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         CadastrarProduto = new javax.swing.JButton();
         FecharTela = new javax.swing.JButton();
-        descricaoProduto = new javax.swing.JTextField();
+        txtDescricao = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        nomeProduto = new javax.swing.JTextField();
-        precoProduto = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
+        txtPreco = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -43,15 +102,11 @@ public class Cadastro extends javax.swing.JFrame {
 
         jLabel4.setText("Qtda em Estoque");
 
-        qtdaProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                qtdaProdutoQtdaProduto(evt);
-            }
-        });
-
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setText("Cadastro Produto");
 
         CadastrarProduto.setText("Cadastrar");
+        CadastrarProduto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         CadastrarProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CadastrarProdutocadastrarProduto(evt);
@@ -59,31 +114,14 @@ public class Cadastro extends javax.swing.JFrame {
         });
 
         FecharTela.setText("Fechar");
+        FecharTela.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         FecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FecharTela(evt);
             }
         });
 
-        descricaoProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descricaoProdutoDescricaoProduto(evt);
-            }
-        });
-
         jLabel1.setText("Nome Produto");
-
-        nomeProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomeProdutoNomeProduto(evt);
-            }
-        });
-
-        precoProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                precoProdutoPrecoProduto(evt);
-            }
-        });
 
         jLabel2.setText("Descrição");
 
@@ -93,76 +131,75 @@ public class Cadastro extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(295, 295, 295)
-                .addComponent(CadastrarProduto)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(55, 55, 55)
-                                .addComponent(descricaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(precoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(qtdaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtQtda, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(70, 70, 70))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(317, 317, 317))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(FecharTela)
                         .addGap(36, 36, 36))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(295, 295, 295)
+                        .addComponent(CadastrarProduto))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(247, 247, 247)
+                        .addComponent(jLabel5)))
+                .addGap(251, 251, 251))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel5)
-                .addGap(32, 32, 32)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(nomeProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(descricaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(precoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(qtdaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQtda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(75, 75, 75)
                 .addComponent(CadastrarProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addGap(45, 45, 45)
                 .addComponent(FecharTela)
-                .addGap(24, 24, 24))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void qtdaProdutoQtdaProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtdaProdutoQtdaProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_qtdaProdutoQtdaProduto
-
     private void CadastrarProdutocadastrarProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarProdutocadastrarProduto
-        // TODO add your handling code here:
+        cadastrarProduto();
     }//GEN-LAST:event_CadastrarProdutocadastrarProduto
 
     private void FecharTela(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharTela
@@ -170,18 +207,6 @@ public class Cadastro extends javax.swing.JFrame {
         inicio.setVisible(true);
         dispose();
     }//GEN-LAST:event_FecharTela
-
-    private void descricaoProdutoDescricaoProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descricaoProdutoDescricaoProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_descricaoProdutoDescricaoProduto
-
-    private void nomeProdutoNomeProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeProdutoNomeProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeProdutoNomeProduto
-
-    private void precoProdutoPrecoProduto(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precoProdutoPrecoProduto
-        // TODO add your handling code here:
-    }//GEN-LAST:event_precoProdutoPrecoProduto
 
     /**
      * @param args the command line arguments
@@ -222,14 +247,14 @@ public class Cadastro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CadastrarProduto;
     private javax.swing.JButton FecharTela;
-    private javax.swing.JTextField descricaoProduto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField nomeProduto;
-    private javax.swing.JTextField precoProduto;
-    private javax.swing.JTextField qtdaProduto;
+    private javax.swing.JTextField txtDescricao;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtPreco;
+    private javax.swing.JTextField txtQtda;
     // End of variables declaration//GEN-END:variables
 }

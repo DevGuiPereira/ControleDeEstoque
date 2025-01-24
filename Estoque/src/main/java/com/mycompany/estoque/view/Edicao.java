@@ -4,11 +4,21 @@
  */
 package com.mycompany.estoque.view;
 
+import com.mycompany.estoque.model.Produto;
+import com.mycompany.estoque.repository.Conexao;
+import com.mycompany.estoque.repository.ConexaoMySQL;
+import com.mycompany.estoque.repository.ProdutoRepository;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author guilh
  */
 public class Edicao extends javax.swing.JFrame {
+    
+    private ProdutoRepository produtoRepository;
+    private Connection connection;
 
     /**
      * Creates new form Edicao1
@@ -16,7 +26,35 @@ public class Edicao extends javax.swing.JFrame {
     public Edicao() {
         initComponents();
         setLocationRelativeTo(null);
+        configurarConexao();
+        produtoRepository = new ProdutoRepository();
     }
+    
+    private void configurarConexao(){
+        // Configurando a conexão
+        Conexao conexao = new Conexao(
+                "localhost",
+                "root",
+                "Guirp007007!",
+                3306,
+                "estoque"
+        );
+
+        ConexaoMySQL conexaoMySQL = new ConexaoMySQL(conexao);
+        if (conexaoMySQL.conectar()) {  // Certifique-se de que a conexão foi estabelecida
+            connection = ConexaoMySQL.connection;  // Atribua a conexão à variável global
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;  // Interrompe a execução se não houver conexão
+        }
+    }
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtDescricao.setText("");
+        txtPreco.setText("");
+        txtQtda.setText("");
+    }    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,41 +65,27 @@ public class Edicao extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        editarDescricao = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        txtDescricao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        editarNome = new javax.swing.JTextField();
-        editarPreco = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
+        txtPreco = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         salvarEdicao = new javax.swing.JButton();
-        localizarID = new javax.swing.JTextField();
+        txtLocalizarID = new javax.swing.JTextField();
         FecharTela = new javax.swing.JButton();
         buscarID = new javax.swing.JButton();
-        editarQtda = new javax.swing.JTextField();
+        txtQtda = new javax.swing.JTextField();
+        excluirButton = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        editarDescricao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarDescricaoActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Nome Produto");
-
-        editarNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarNome(evt);
-            }
-        });
-
-        editarPreco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarPrecoActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Descrição");
 
@@ -69,22 +93,20 @@ public class Edicao extends javax.swing.JFrame {
 
         jLabel5.setText("Qtda em Estoque");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel1.setText("Digite o ID do produto:");
 
+        salvarEdicao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         salvarEdicao.setText("Salvar");
+        salvarEdicao.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         salvarEdicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 salvarEdicaoSalvarEdicao(evt);
             }
         });
 
-        localizarID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                localizarIDLocalizarID(evt);
-            }
-        });
-
         FecharTela.setText("Fechar");
+        FecharTela.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         FecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FecharTela(evt);
@@ -92,15 +114,22 @@ public class Edicao extends javax.swing.JFrame {
         });
 
         buscarID.setText("Buscar");
+        buscarID.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         buscarID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarIDBuscarID(evt);
             }
         });
 
-        editarQtda.addActionListener(new java.awt.event.ActionListener() {
+        excluirButton.setBackground(new java.awt.Color(255, 0, 0));
+        excluirButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        excluirButton.setForeground(new java.awt.Color(255, 255, 255));
+        excluirButton.setText("Excluir");
+        excluirButton.setBorderPainted(false);
+        excluirButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        excluirButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarQtdaActionPerformed(evt);
+                excluirButtonActionPerformed(evt);
             }
         });
 
@@ -108,70 +137,74 @@ public class Edicao extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 596, Short.MAX_VALUE)
+                .addComponent(FecharTela)
+                .addGap(32, 32, 32))
             .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(localizarID, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtLocalizarID, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(buscarID))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(55, 55, 55)
-                                .addComponent(editarDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(editarNome, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(editarPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(editarQtda, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtQtda, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(312, 312, 312)
-                        .addComponent(salvarEdicao)))
-                .addContainerGap(68, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(FecharTela)
-                .addGap(32, 32, 32))
+                        .addGap(286, 286, 286)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(salvarEdicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(excluirButton))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(localizarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLocalizarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscarID))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(editarNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editarDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editarPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(editarQtda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQtda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(salvarEdicao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(excluirButton)
+                .addGap(31, 31, 31)
                 .addComponent(FecharTela)
                 .addGap(25, 25, 25))
         );
@@ -179,25 +212,73 @@ public class Edicao extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editarDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarDescricaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editarDescricaoActionPerformed
-
-    private void editarNome(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarNome
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editarNome
-
-    private void editarPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarPrecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editarPrecoActionPerformed
-
     private void salvarEdicaoSalvarEdicao(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarEdicaoSalvarEdicao
-        // TODO add your handling code here:
-    }//GEN-LAST:event_salvarEdicaoSalvarEdicao
+        try {
+            // Criar o objeto produto com os dados preenchidos
+            Produto produto = new Produto();
+            produto.setId(Integer.parseInt(txtLocalizarID.getText()));
+            produto.setNome(txtNome.getText());
+            produto.setDescricao(txtDescricao.getText());
+            produto.setPreco(Double.parseDouble(txtPreco.getText()));
+            produto.setQuantidade(Integer.parseInt(txtQtda.getText()));
 
-    private void localizarIDLocalizarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localizarIDLocalizarID
-        // TODO add your handling code here:
-    }//GEN-LAST:event_localizarIDLocalizarID
+            // Etapa 1: Confirmação de atualização
+            int confirmacao = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza de que deseja atualizar o produto com ID " + produto.getId() + "?",
+                "Confirmação de Atualização",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                // Etapa 2: Atualizar o produto no banco de dados
+                boolean sucesso = produtoRepository.atualizar(connection, produto);
+
+                if (sucesso) {
+                    // Etapa 3: Mensagem de sucesso
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Produto com ID " + produto.getId() + " atualizado com sucesso!",
+                        "Atualização Bem-Sucedida",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+                } else {
+                    // Etapa 4: Mensagem de falha
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Não foi possível atualizar o produto com ID " + produto.getId() + ".",
+                        "Erro na Atualização",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            } else {
+                // Caso o usuário cancele a atualização
+                JOptionPane.showMessageDialog(
+                    this,
+                    "A atualização foi cancelada pelo usuário.",
+                    "Operação Cancelada",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Erro nos dados inseridos. Por favor, verifique os valores preenchidos.",
+                "Erro de Entrada",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Erro ao tentar atualizar o produto: " + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+            ex.printStackTrace(); // Imprime a pilha de erros para depuração
+        }
+        
+    }//GEN-LAST:event_salvarEdicaoSalvarEdicao
 
     private void FecharTela(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharTela
         Inicio inicio = new Inicio();
@@ -206,12 +287,93 @@ public class Edicao extends javax.swing.JFrame {
     }//GEN-LAST:event_FecharTela
 
     private void buscarIDBuscarID(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarIDBuscarID
-        // TODO add your handling code here:
+        
+        try{
+            int id = Integer.parseInt(txtLocalizarID.getText());
+            
+            Produto produto = produtoRepository.selecionar(connection, id);
+           
+            if (produto != null) {
+                // Preencher os campos com os dados do produto encontrado
+                txtNome.setText(produto.getNome());
+                txtDescricao.setText(produto.getDescricao());
+                txtPreco.setText(String.valueOf(produto.getPreco()));
+                txtQtda.setText(String.valueOf(produto.getQuantidade()));
+            } else {
+                // Caso o produto não seja encontrado
+                JOptionPane.showMessageDialog(this, "Produto não encontrado!", "Erro", JOptionPane.WARNING_MESSAGE);
+                limparCampos(); // Limpar os campos para evitar exibição de dados incorretos
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Erro ao buscar o produto: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace(); // Imprime a pilha completa do erro no terminal
+        }
+       
+     
     }//GEN-LAST:event_buscarIDBuscarID
 
-    private void editarQtdaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarQtdaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editarQtdaActionPerformed
+    private void excluirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirButtonActionPerformed
+        
+        try {
+            int id = Integer.parseInt(txtLocalizarID.getText());
+
+            // Etapa 1: Confirmação de exclusão
+            int confirmacao = JOptionPane.showConfirmDialog(
+                this, 
+                "Tem certeza de que deseja excluir o produto com ID " + id + "?",
+                "Confirmação de Exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            );
+
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                // Etapa 2: Tentativa de exclusão
+                boolean sucesso = produtoRepository.deletar(connection, id);
+
+                if (sucesso) {
+                    // Etapa 3: Mensagem de sucesso
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Produto com ID " + id + " foi excluído com sucesso!",
+                        "Exclusão Bem-Sucedida",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+                    limparCampos(); // Limpa os campos após exclusão
+                } else {
+                    // Etapa 4: Mensagem de falha
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Produto com ID " + id + " não foi encontrado ou não pôde ser excluído.",
+                        "Erro na Exclusão",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            } else {
+                // Caso o usuário cancele a exclusão
+                JOptionPane.showMessageDialog(
+                    this,
+                    "A exclusão foi cancelada pelo usuário.",
+                    "Operação Cancelada",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "ID inválido. Por favor, insira um número válido.",
+                "Erro de Entrada",
+                JOptionPane.ERROR_MESSAGE
+            );
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Erro ao tentar excluir o produto: " + ex.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+            );
+            ex.printStackTrace(); // Imprime a pilha completa do erro no terminal para depuração
+        }
+    }//GEN-LAST:event_excluirButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,16 +414,18 @@ public class Edicao extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton FecharTela;
     private javax.swing.JButton buscarID;
-    private javax.swing.JTextField editarDescricao;
-    private javax.swing.JTextField editarNome;
-    private javax.swing.JTextField editarPreco;
-    private javax.swing.JTextField editarQtda;
+    private javax.swing.JButton excluirButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField localizarID;
     private javax.swing.JButton salvarEdicao;
+    private javax.swing.JTextField txtDescricao;
+    private javax.swing.JTextField txtLocalizarID;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtPreco;
+    private javax.swing.JTextField txtQtda;
     // End of variables declaration//GEN-END:variables
 }

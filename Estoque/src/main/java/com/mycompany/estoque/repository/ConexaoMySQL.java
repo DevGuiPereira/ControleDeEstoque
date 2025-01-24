@@ -15,19 +15,10 @@ public class ConexaoMySQL {
     public boolean conectar() {
         if (conexao != null) {
             try {
-                // URL de conexão com parâmetros adicionais
-               
-                System.out.println("Iniciando tentativa de conexão com o banco de dados...");
-                System.out.println("Endereço: " + conexao.getEndereco());
-                System.out.println("Porta: " + conexao.getPorta());
-                System.out.println("Nome do banco: " + conexao.getNomeBanco());
-                System.out.println("Usuário: " + conexao.getUser());
-                
                 String url = "jdbc:mysql://" + conexao.getEndereco() +
                              ":" + conexao.getPorta() +
                              "/" + conexao.getNomeBanco();
                         
-                System.out.println("URL de conexão gerada: " + url);
                         
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -38,7 +29,6 @@ public class ConexaoMySQL {
                         conexao.getPassword()
                 );
 
-                System.out.println("Conexão estabelecida com sucesso!");
                 return true;
 
             } catch (Exception ex) {

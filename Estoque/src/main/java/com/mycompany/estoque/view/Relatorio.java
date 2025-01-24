@@ -26,7 +26,6 @@ public class Relatorio extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         configurarConexao();
-        carregarTabela();
     }
 
     @SuppressWarnings("unchecked")
@@ -36,6 +35,8 @@ public class Relatorio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         relatorioProdutos = new javax.swing.JTable();
         FecharTela = new javax.swing.JButton();
+        relatorioCompletoButton = new javax.swing.JButton();
+        relatorioCompletoButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,9 +75,26 @@ public class Relatorio extends javax.swing.JFrame {
         jScrollPane1.setViewportView(relatorioProdutos);
 
         FecharTela.setText("Fechar");
+        FecharTela.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         FecharTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FecharTela(evt);
+            }
+        });
+
+        relatorioCompletoButton.setText("Relatório Completo");
+        relatorioCompletoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        relatorioCompletoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                relatorioCompletoButtonActionPerformed(evt);
+            }
+        });
+
+        relatorioCompletoButton1.setText("Relatório Pouco Estoque ( < 5 )");
+        relatorioCompletoButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        relatorioCompletoButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                relatorioCompletoButton1ActionPerformed(evt);
             }
         });
 
@@ -85,23 +103,34 @@ public class Relatorio extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(305, 305, 305)
-                        .addComponent(FecharTela))
+                        .addComponent(relatorioCompletoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(relatorioCompletoButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(FecharTela)
+                        .addGap(14, 14, 14))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(35, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(FecharTela)
-                .addGap(31, 31, 31))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(FecharTela))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(relatorioCompletoButton)
+                            .addComponent(relatorioCompletoButton1))))
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -112,6 +141,14 @@ public class Relatorio extends javax.swing.JFrame {
         inicio.setVisible(true);
         dispose();
     }//GEN-LAST:event_FecharTela
+
+    private void relatorioCompletoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioCompletoButtonActionPerformed
+        carregarTabelaTodos();
+    }//GEN-LAST:event_relatorioCompletoButtonActionPerformed
+
+    private void relatorioCompletoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioCompletoButton1ActionPerformed
+        carregarTabelaPoucoEstoque();
+    }//GEN-LAST:event_relatorioCompletoButton1ActionPerformed
 
     private void configurarConexao(){
         // Configurando a conexão
@@ -132,7 +169,7 @@ public class Relatorio extends javax.swing.JFrame {
         }
     }
     
-    private void carregarTabela() {
+    private void carregarTabelaTodos() {
               
         // Inicializando o repositório
         ProdutoRepository produtoRepository = new ProdutoRepository();
@@ -141,7 +178,36 @@ public class Relatorio extends javax.swing.JFrame {
         List<Produto> produtos = produtoRepository.selecionarTodos(connection);
 
         if (produtos == null || produtos.isEmpty()) {
-            System.out.println("Nenhum produto encontrado no banco de dados.");
+            JOptionPane.showMessageDialog(this, "Nenhum produto encontrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Criando o modelo da tabela
+        DefaultTableModel modeloTabela = (DefaultTableModel) relatorioProdutos.getModel();
+        modeloTabela.setRowCount(0); // Limpa os dados anteriores da tabela
+
+        for (Produto produto : produtos) {
+
+            modeloTabela.addRow(new Object[]{
+                    produto.getId(),
+                    produto.getNome(),
+                    produto.getDescricao(),
+                    produto.getPreco(),
+                    produto.getQuantidade()
+            });
+        }
+
+    }
+    
+    private void carregarTabelaPoucoEstoque() {
+              
+        // Inicializando o repositório
+        ProdutoRepository produtoRepository = new ProdutoRepository();
+
+        // Selecionando os produtos
+        List<Produto> produtos = produtoRepository.selecionarPoucoEstoque(connection);
+
+        if (produtos == null || produtos.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum produto encontrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
@@ -201,6 +267,8 @@ public class Relatorio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton FecharTela;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton relatorioCompletoButton;
+    private javax.swing.JButton relatorioCompletoButton1;
     private javax.swing.JTable relatorioProdutos;
     // End of variables declaration//GEN-END:variables
 }

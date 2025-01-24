@@ -45,7 +45,7 @@ public class ProdutoRepository implements Crud<Produto> {
     public boolean atualizar(Connection connection, Produto produto) {
         PreparedStatement stmt = null;
         try{
-            String comando = "UPDATE produto SET " +
+            String comando = "UPDATE produtos SET " +
                              "nome = ?, descricao = ?, preco = ?, quantidade = ? " +
                              "WHERE idprodutos = ?";
             stmt = connection.prepareStatement(comando);
@@ -58,6 +58,7 @@ public class ProdutoRepository implements Crud<Produto> {
             stmt.close();
             return true;
         }catch(Exception ex){
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(
                     null,
                     "Erro ao atualizar prouto: " + ex.getMessage(),
@@ -69,13 +70,13 @@ public class ProdutoRepository implements Crud<Produto> {
     }
 
     @Override
-    public boolean deletar(Connection connection, Produto produto) {
+    public boolean deletar(Connection connection, int id) {
         PreparedStatement stmt = null;
         try{
-            String comando = "DELETE FROM produtos( " +
+            String comando = "DELETE FROM produtos " +
                              "WHERE idprodutos = ?";
             stmt = connection.prepareStatement(comando);
-            stmt.setInt(1, produto.getId());
+            stmt.setInt(1,id);
             stmt.executeUpdate();
             stmt.close();
             return true;
@@ -91,31 +92,27 @@ public class ProdutoRepository implements Crud<Produto> {
     }
 
     @Override
-    public Produto selecionar(Connection connection, String operador, int id) {
+    public Produto selecionar(Connection connection, int id) {
+        Produto produto = new Produto();
+        
         try{
-            Produto produto = new Produto();
             PreparedStatement stmt = null;
-            String comando = "SELECT * FROM proutos( WHERE idprodutos " + 
-                             operador + " ? ";
-            if(operador.equals("<"))
-                comando += " ORDER BY id DESC";
+            String comando = "SELECT * FROM produtos WHERE idprodutos = ? ";
             stmt = connection.prepareStatement(comando);
             stmt.setInt(1, id);
+            
             ResultSet res = stmt.executeQuery();
-            if(res != null){
-                while(res.next()){
-                    produto.setId(Integer.parseInt(res.getString("id") ));
-                    produto.setNome(res.getString("nome"));
-                    produto.setDescricao(res.getString("descricao"));
-                    produto.setPreco(Double.parseDouble(res.getString("preco") ));
-                    produto.setQuantidade(Integer.parseInt(res.getString("quantidade") ));                    
-                    break;
-                }
+            if(res.next()){                
+                produto.setId(Integer.parseInt(res.getString("idprodutos") ));
+                produto.setNome(res.getString("nome"));
+                produto.setDescricao(res.getString("descricao"));
+                produto.setPreco(res.getDouble("preco"));
+                produto.setQuantidade(Integer.parseInt(res.getString("quantidade") ));
             }
-            return produto;
         }catch(Exception ex){ 
-            return null;
+            ex.printStackTrace();
         }
+        return produto;
     }
 
     @Override
@@ -142,7 +139,6 @@ public class ProdutoRepository implements Crud<Produto> {
             rs.close();
             stmt.close();
         } catch (Exception ex) {
-            System.out.println("Erro ao executar o comando SQL: " + ex.getMessage());
             ex.printStackTrace();
             return null;
         }
@@ -150,6 +146,37 @@ public class ProdutoRepository implements Crud<Produto> {
         return produtos;  // Retorna a lista de produtos
     }
 
+    @Override
+    public List<Produto> selecionarPoucoEstoque(Connection connection) {
+        
+        List<Produto> produtos = new ArrayList<>();
+        String comando = "SELECT * FROM produtos WHERE quantidade < 5";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(comando);
+            ResultSet rs = stmt.executeQuery();
+
+            // Preenchendo a lista de produtos com os dados do ResultSet
+            while (rs.next()) {
+                
+                Produto produto = new Produto();
+                produto.setId(rs.getInt("idprodutos"));  // Assumindo que a coluna seja 'idProduto'
+                produto.setNome(rs.getString("nome"));
+                produto.setDescricao(rs.getString("descricao"));
+                produto.setPreco(rs.getDouble("preco"));
+                produto.setQuantidade(rs.getInt("quantidade"));
+                produtos.add(produto);  // Adiciona o produto na lista
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+        return produtos;  // Retorna a lista de produtos
+    }
 
 }
     

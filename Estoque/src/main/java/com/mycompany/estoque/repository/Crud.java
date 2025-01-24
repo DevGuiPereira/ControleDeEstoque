@@ -14,7 +14,8 @@ import java.util.List;
 public interface Crud<T> {
     public boolean inserir(Connection connection, T entity);
     public boolean atualizar(Connection connection, T entity);
-    public boolean deletar(Connection connection, T entity);
-    public T selecionar(Connection connection, String operador, int id); 
-    public List<Produto> selecionarTodos(Connection connection); 
+    public boolean deletar(Connection connection, int id);
+    public T selecionar(Connection connection, int id); 
+    public List<Produto> selecionarTodos(Connection connection);
+    public List<Produto> selecionarPoucoEstoque(Connection connection);
 }
