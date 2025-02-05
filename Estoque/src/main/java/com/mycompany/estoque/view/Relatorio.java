@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Relatorio extends javax.swing.JFrame {
 
-    private ProdutoRepository produtoRepository;
+    private ProdutoRepository produtoRepository = new ProdutoRepository();
     private Connection connection;
     
     public Relatorio() {
