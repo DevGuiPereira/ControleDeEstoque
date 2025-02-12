@@ -34,20 +34,11 @@ Certifique-se de ter os seguintes requisitos instalados antes de executar o proj
    ```bash
    git clone https://github.com/DevGuiPereira/ControleDeEstoque.git
    ```
-2. Navegue até a pasta do projeto:
-   ```bash
-   cd estoque
-   ```
-3. Configure o banco de dados:
+2. Configure o banco de dados:
    - Crie o banco de dados `estoque` no MySQL.
    - Importe o script SQL disponível no projeto para criar a tabela `produtos`.
-4. Compile e execute o projeto:
-   ```bash
-   mvn clean install
-   mvn exec:java
-   ```
-5. Use a aplicação através da interface gráfica.
-6. Lembre-se de colocar a sua senha do banco de dados nos arquivos de 'Cadastro','Edicao' e 'Inicio' para o programa funcionar.
+3. Use a aplicação através da interface gráfica.
+4. Lembre-se de colocar a sua senha do banco de dados nos arquivos de 'Cadastro','Edicao' e 'Inicio' para o programa funcionar.
 
 ## 🚀 Tecnologias Utilizadas
 
